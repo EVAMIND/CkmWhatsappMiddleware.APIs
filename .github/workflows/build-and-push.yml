@@ -8,7 +8,7 @@ jobs:
   call-workflow-passing-data:
     uses: EVAMIND/actions/.github/workflows/nuget.yml@master
     with:
-      project_path: 'CkmWhatsappMiddleware.APIs.csproj'
+      project_path: 'CkmWhatsAppMiddleware.APIs.csproj'
     secrets:
       git_token: ${{ secrets.GIT_TOKEN }}
       aws_ca_access_key_id: ${{ secrets.AWS_CA_ACCESS_KEY_ID }}
