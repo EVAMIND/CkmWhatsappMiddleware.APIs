@@ -1,0 +1,15 @@
+name: build and push
+
+on:
+  push:
+    branches: [ qa,master,QA ]
+
+jobs:
+  call-workflow-passing-data:
+    uses: EVAMIND/actions/.github/workflows/nuget.yml@master
+    with:
+      project_path: 'CkmWhatsAppMiddleware.APIs.csproj'
+    secrets:
+      git_token: ${{ secrets.GIT_TOKEN }}
+      aws_ca_access_key_id: ${{ secrets.AWS_CA_ACCESS_KEY_ID }}
+      aws_ca_secret_access_key: ${{ secrets.AWS_CA_SECRET_ACCESS_KEY }}

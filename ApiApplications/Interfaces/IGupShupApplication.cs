@@ -2,5 +2,5 @@
 
 public interface IGupShupApplication
 {
-    Task<bool> DeleteAsync(string apiKey, string token);
+    Task<bool> GetWalletBalanceAsync(string apiKey, string token);
 }

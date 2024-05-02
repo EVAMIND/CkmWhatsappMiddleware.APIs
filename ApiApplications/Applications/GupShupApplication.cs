@@ -12,7 +12,7 @@ public  class GupShupApplication : IGupShupApplication
     {
         _repository = repository;
     }
-    public virtual async Task<bool> DeleteAsync(string apiKey, string token)
+    public virtual async Task<bool> GetWalletBalanceAsync(string apiKey, string token)
     {
         try
         {
