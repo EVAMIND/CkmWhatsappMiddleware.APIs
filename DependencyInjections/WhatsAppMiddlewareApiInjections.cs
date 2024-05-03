@@ -17,7 +17,6 @@ public static class WhatsAppMiddlewareApiInjections
         {
             throw new Exception("appsettings.WhatsAppMiddlewareApi.json não encontrado como recurso embutido.");
         }
-
         using (var stream = assembly.GetManifestResourceStream(resourceName))
         {
             if (stream == null)
@@ -40,14 +39,11 @@ public static class WhatsAppMiddlewareApiInjections
         AddRepositoriesServices(services);
         AddApplicationsServices(services);
     }
-
     private static void AddRepositoriesServices(this IServiceCollection services)
-    {
-    }
+    { }
 
     private static void AddApplicationsServices(this IServiceCollection services)
     {
-
         services.AddAutoMapper(typeof(ApplicationMappingProfile));
     }
 }
