@@ -1,4 +1,8 @@
-﻿using CkmWhatsAppMiddleware.APIs.AutoMapper;
+﻿using CkmWhatsAppMiddleware.APIs.ApiApplications.Applications;
+using CkmWhatsAppMiddleware.APIs.ApiApplications.Interfaces;
+using CkmWhatsAppMiddleware.APIs.ApiRepositories.Interfaces;
+using CkmWhatsAppMiddleware.APIs.ApiRepositories.Repositories;
+using CkmWhatsAppMiddleware.APIs.AutoMapper;
 using CkmWhatsAppMiddleware.APIs.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,10 +44,13 @@ public static class WhatsAppMiddlewareApiInjections
         AddApplicationsServices(services);
     }
     private static void AddRepositoriesServices(this IServiceCollection services)
-    { }
+    {
+        services.AddScoped<IGupShupRepository, GupShupRepository>();
+    }
 
     private static void AddApplicationsServices(this IServiceCollection services)
     {
         services.AddAutoMapper(typeof(ApplicationMappingProfile));
+        services.AddScoped<IGupShupApplication, GupShupApplication>();
     }
 }
