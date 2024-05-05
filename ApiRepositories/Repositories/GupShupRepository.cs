@@ -1,5 +1,6 @@
 ﻿using CkmICDServices.DTOs.TransferObjects.Message.Request;
 using CkmICDServices.DTOs.TransferObjects.Message.Request.Base;
+using CkmICDServices.DTOs.TransferObjects.Template.Request;
 using CkmWhatsAppMiddleware.APIs.ApiRepositories.Interfaces;
 using CkmWhatsAppMiddleware.APIs.Models;
 using Helpers.Core.Extensions;
@@ -163,7 +164,7 @@ public class GupShupRepository : IGupShupRepository
         return response;
     }
 
-    public async Task<bool> SendTemplateToCustomers(List<string> phones, Guid templateId, string apiKey, string token)
+    public async Task<bool> SendTemplateToCustomers(MessageTemplateRequestView messageTemplate, Guid templateId, string apiKey, string token)
     {
         string uri = $"{_whatsAppMiddlewareApi.Controllers.GupShup}/SendTemplateToCustomers";
 
@@ -172,7 +173,7 @@ public class GupShupRepository : IGupShupRepository
         _httpClient.AddOrUpdateHeader("apiKey", apiKey.ToString());
         _httpClient.AddOrUpdateHeader("templateId", templateId.ToString());
 
-        StringContent content = new StringContent(JsonConvert.SerializeObject(phones));
+        StringContent content = new StringContent(JsonConvert.SerializeObject(messageTemplate));
 
         HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
 

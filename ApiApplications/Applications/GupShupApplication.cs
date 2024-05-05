@@ -2,6 +2,7 @@
 using CkmICDServices.DTOs.TransferObjects.Message.Request;
 using CkmICDServices.DTOs.TransferObjects.Message.Request.Base;
 using CkmICDServices.DTOs.TransferObjects.Template;
+using CkmICDServices.DTOs.TransferObjects.Template.Request;
 using CkmWhatsAppMiddleware.APIs.ApiApplications.Interfaces;
 using CkmWhatsAppMiddleware.APIs.ApiRepositories.Interfaces;
 using Newtonsoft.Json;
@@ -69,11 +70,11 @@ public class GupShupApplication : IGupShupApplication
             throw;
         }
     }  
-    public virtual async Task<bool> SendTemplateToCustomers(string apiKey, List<string> phones, Guid templateId, string token)
+    public virtual async Task<bool> SendTemplateToCustomers(MessageTemplateRequestView messageTemplateRequest, string apiKey, Guid templateId, string token)
     {
         try
         {
-            var response = await _repository.SendTemplateToCustomers(phones, templateId, apiKey, token);
+            var response = await _repository.SendTemplateToCustomers(messageTemplateRequest, templateId, apiKey, token);
 
             return response;
         }
