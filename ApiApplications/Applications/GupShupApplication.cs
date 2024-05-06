@@ -76,7 +76,22 @@ public class GupShupApplication : IGupShupApplication
         {
             var response = await _repository.SendTemplateToCustomers(messageTemplateRequest, templateId, apiKey, token);
 
-            return response;
+            if (!response.IsSuccessStatusCode)
+            {
+                if (response.StatusCode == HttpStatusCode.NotFound)
+                    return false;
+                else
+                    throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
+            }
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            if (string.IsNullOrEmpty(content))
+                throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
+
+            return bool.Parse(content);
+
+            
         }
         catch (Exception)
         {
