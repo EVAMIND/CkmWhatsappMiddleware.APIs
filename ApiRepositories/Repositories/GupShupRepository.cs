@@ -6,8 +6,6 @@ using CkmWhatsAppMiddleware.APIs.Models;
 using Helpers.Core.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using System.Net;
 
 namespace CkmWhatsAppMiddleware.APIs.ApiRepositories.Repositories;
 
@@ -25,16 +23,18 @@ public class GupShupRepository : IGupShupRepository
         _whatsAppMiddlewareApi = whatsAppMiddlewareApi.Value;
         _apiVersion = _whatsAppMiddlewareApi.Versions.GupShup;
         _httpClient.BaseAddress = new Uri(_configuration.GetValue<string>("Uris:WhatsAppMiddlewareApi")!.ToString()!);
+        
     }
 
     public async Task<HttpResponseMessage> GetAllTemplatesByApiKey(string apiKey, string sourceName, string token)
     {
         string uri = $"{_whatsAppMiddlewareApi.Controllers.GupShup}/ListTemplatesAsync";
 
+        _httpClient.AddOrUpdateUri(uri);
         _httpClient.AddBearerToken(token);
         _httpClient.AddApiVersion(_apiVersion);
         _httpClient.AddOrUpdateHeader("apiKey", apiKey.ToString());
-        _httpClient.AddOrUpdateHeader("sourceName", apiKey.ToString());
+        _httpClient.AddOrUpdateHeader("sourceName", sourceName.ToString());
 
         return await _httpClient.GetAsync();
     }
@@ -43,6 +43,7 @@ public class GupShupRepository : IGupShupRepository
     {
         string uri = $"{_whatsAppMiddlewareApi.Controllers.GupShup}/GetWalletBalance";
 
+        _httpClient.AddOrUpdateUri(uri);
         _httpClient.AddBearerToken(token);
         _httpClient.AddApiVersion(_apiVersion);
         _httpClient.AddOrUpdateHeader("apiKey", apiKey.ToString());
@@ -54,154 +55,193 @@ public class GupShupRepository : IGupShupRepository
     {
         string uri = $"{_whatsAppMiddlewareApi.Controllers.GupShup}/SendVideoMessage";
 
+        _httpClient.AddOrUpdateUri(uri);
         _httpClient.AddBearerToken(token);
         _httpClient.AddApiVersion(_apiVersion);
         _httpClient.AddOrUpdateHeader("apiKey", apiKey.ToString());
 
+        _httpClient.AddBody(messageRequest);
 
-        StringContent content = new StringContent(JsonConvert.SerializeObject(messageRequest));
+        return await _httpClient.PostAsync();
 
-        HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
 
-        response.EnsureSuccessStatusCode();
+        //StringContent content = new StringContent(JsonConvert.SerializeObject(messageRequest));
 
-        if (response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.NotFound)
-        {
-            return null;
-        }
+        //HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
 
-        return response;
+        //response.EnsureSuccessStatusCode();
+
+        //if (response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.NotFound)
+        //{
+        //    return null;
+        //}
+
+        //return response;
     }
     public async Task<HttpResponseMessage> SendAudioMessage(string apiKey, BaseMessageRequestDTO<AudioMessageRequestDTO> messageRequest, string token)
     {
         string uri = $"{_whatsAppMiddlewareApi.Controllers.GupShup}/SendAudioMessage";
 
+        _httpClient.AddOrUpdateUri(uri);
         _httpClient.AddBearerToken(token);
         _httpClient.AddApiVersion(_apiVersion);
         _httpClient.AddOrUpdateHeader("apiKey", apiKey.ToString());
 
+        _httpClient.AddBody(messageRequest);
 
-        StringContent content = new StringContent(JsonConvert.SerializeObject(messageRequest));
+        return await _httpClient.PostAsync();
 
-        HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
 
-        response.EnsureSuccessStatusCode();
 
-        if (response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.NotFound)
-        {
-            return null;
-        }
+        //StringContent content = new StringContent(JsonConvert.SerializeObject(messageRequest));
 
-        return response;
+        //HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
+
+        //response.EnsureSuccessStatusCode();
+
+        //if (response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.NotFound)
+        //{
+        //    return null;
+        //}
+
+        //return response;
     }
 
     public async Task<HttpResponseMessage> SendFileMessage(string apiKey, BaseMessageRequestDTO<FileMessageRequestDTO> messageRequest, string token)
     {
         string uri = $"{_whatsAppMiddlewareApi.Controllers.GupShup}/SendFileMessage";
 
+        _httpClient.AddOrUpdateUri(uri);
         _httpClient.AddBearerToken(token);
         _httpClient.AddApiVersion(_apiVersion);
         _httpClient.AddOrUpdateHeader("apiKey", apiKey.ToString());
 
+        _httpClient.AddBody(messageRequest);
 
-        StringContent content = new StringContent(JsonConvert.SerializeObject(messageRequest));
+        return await _httpClient.PostAsync();
 
-        HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
 
-        response.EnsureSuccessStatusCode();
+        //StringContent content = new StringContent(JsonConvert.SerializeObject(messageRequest));
 
-        if (response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.NotFound)
-        {
-            return null;
-        }
+        //HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
 
-        return response;
+        //response.EnsureSuccessStatusCode();
+
+        //if (response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.NotFound)
+        //{
+        //    return null;
+        //}
+
+        //return response;
     }
 
     public async Task<HttpResponseMessage> SendImageMessage(string apiKey, BaseMessageRequestDTO<ImageMessageRequestDTO> messageRequest, string token)
     {
         string uri = $"{_whatsAppMiddlewareApi.Controllers.GupShup}/SendImageMessage";
 
+        _httpClient.AddOrUpdateUri(uri);
         _httpClient.AddBearerToken(token);
         _httpClient.AddApiVersion(_apiVersion);
         _httpClient.AddOrUpdateHeader("apiKey", apiKey.ToString());
 
+        _httpClient.AddBody(messageRequest);
 
-        StringContent content = new StringContent(JsonConvert.SerializeObject(messageRequest));
+        return await _httpClient.PostAsync();
 
-        HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
 
-        response.EnsureSuccessStatusCode();
 
-        if (response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.NotFound)
-        {
-            return null;
-        }
+        //StringContent content = new StringContent(JsonConvert.SerializeObject(messageRequest));
 
-        return response;
+        //HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
+
+        //response.EnsureSuccessStatusCode();
+
+        //if (response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.NotFound)
+        //{
+        //    return null;
+        //}
+
+        //return response;
     }
 
     public async Task<HttpResponseMessage> SendStickerMessage(string apiKey, BaseMessageRequestDTO<StickerMessageRequestDTO> messageRequest, string token)
     {
         string uri = $"{_whatsAppMiddlewareApi.Controllers.GupShup}/SendStickerMessage";
 
+        _httpClient.AddOrUpdateUri(uri);
         _httpClient.AddBearerToken(token);
         _httpClient.AddApiVersion(_apiVersion);
         _httpClient.AddOrUpdateHeader("apiKey", apiKey.ToString());
 
 
-        StringContent content = new StringContent(JsonConvert.SerializeObject(messageRequest));
+        _httpClient.AddBody(messageRequest);
 
-        HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
+        return await _httpClient.PostAsync();
 
-        response.EnsureSuccessStatusCode();
 
-        if (response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.NotFound)
-        {
-            return null;
-        }
+        //StringContent content = new StringContent(JsonConvert.SerializeObject(messageRequest));
 
-        return response;
+        //HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
+
+        //response.EnsureSuccessStatusCode();
+
+        //if (response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.NotFound)
+        //{
+        //    return null;
+        //}
+
+        //return response;
     }
 
-    public async Task<bool> SendTemplateToCustomers(MessageTemplateRequestView messageTemplate, Guid templateId, string apiKey, string token)
+    public async Task<HttpResponseMessage> SendTemplateToCustomers(MessageTemplateRequestView messageTemplate, Guid templateId, string apiKey, string token)
     {
         string uri = $"{_whatsAppMiddlewareApi.Controllers.GupShup}/SendTemplateToCustomers";
 
+        _httpClient.AddOrUpdateUri(uri);
         _httpClient.AddBearerToken(token);
         _httpClient.AddApiVersion(_apiVersion);
         _httpClient.AddOrUpdateHeader("apiKey", apiKey.ToString());
         _httpClient.AddOrUpdateHeader("templateId", templateId.ToString());
 
-        StringContent content = new StringContent(JsonConvert.SerializeObject(messageTemplate));
+        _httpClient.AddBody(messageTemplate);
 
-        HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
+        return await _httpClient.PostAsync();
 
-        response.EnsureSuccessStatusCode();
 
-        return response.StatusCode == System.Net.HttpStatusCode.Accepted;
+        //StringContent content = new StringContent(JsonConvert.SerializeObject(messageTemplate));
+
+        //HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
+
+        //response.EnsureSuccessStatusCode();
+
+        //return response.StatusCode == System.Net.HttpStatusCode.Accepted;
     }
 
     public async Task<HttpResponseMessage> SendTextMessage(string apiKey, BaseMessageRequestDTO<TextMessageRequestDTO> messageRequest, string token)
     {
         string uri = $"{_whatsAppMiddlewareApi.Controllers.GupShup}/SendTemplateToCustomers";
 
+        _httpClient.AddOrUpdateUri(uri);
         _httpClient.AddBearerToken(token);
         _httpClient.AddApiVersion(_apiVersion);
         _httpClient.AddOrUpdateHeader("apiKey", apiKey.ToString());
 
+        _httpClient.AddBody(messageRequest);
 
-        StringContent content = new StringContent(JsonConvert.SerializeObject(messageRequest));
+        return await _httpClient.PostAsync();
 
-        HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
 
-        response.EnsureSuccessStatusCode();
+        //StringContent content = new StringContent(JsonConvert.SerializeObject(messageRequest));
 
-        if(response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.NotFound) {
-            return null;
-        }
+        //HttpResponseMessage response = await _httpClient.PostAsync(uri, content);
 
-        return response;
+        //response.EnsureSuccessStatusCode();
+
+        //if(response.StatusCode == HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.NotFound) {
+        //    return null;
+        //}
+
+        //return response;
 
 
     }

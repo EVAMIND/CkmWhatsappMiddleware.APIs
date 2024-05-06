@@ -50,7 +50,7 @@ public static class WhatsAppMiddlewareApiInjections
 
     private static void AddApplicationsServices(this IServiceCollection services)
     {
-        services.AddAutoMapper(typeof(ApplicationMappingProfile));
+        //services.AddAutoMapper(typeof(ApplicationMappingProfile));
         services.AddScoped<IGupShupApplication, GupShupApplication>();
     }
 }
