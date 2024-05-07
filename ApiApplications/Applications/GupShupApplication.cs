@@ -98,7 +98,7 @@ public class GupShupApplication : IGupShupApplication
             throw;
         }
     } 
-    public virtual async Task<MessageInboundView> SendTextMessage(string apiKey,  BaseMessageRequestDTO<TextMessageRequestDTO> messageRequest, string token)
+    public virtual async Task<MessageInboundResponseView> SendTextMessage(string apiKey,  BaseMessageRequestDTO<TextMessageRequestDTO> messageRequest, string token)
     {
         try
         {
@@ -118,7 +118,7 @@ public class GupShupApplication : IGupShupApplication
             if (string.IsNullOrEmpty(content))
                 throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
 
-            return JsonConvert.DeserializeObject<MessageInboundView>(content);
+            return JsonConvert.DeserializeObject<MessageInboundResponseView>(content);
 
         }
         catch (Exception)
@@ -126,7 +126,7 @@ public class GupShupApplication : IGupShupApplication
             throw;
         }
     }
-    public async Task<MessageInboundView> SendAudioMessage(string apiKey, BaseMessageRequestDTO<AudioMessageRequestDTO> messageRequest, string token)
+    public async Task<MessageInboundResponseView> SendAudioMessage(string apiKey, BaseMessageRequestDTO<AudioMessageRequestDTO> messageRequest, string token)
     {
         try
         {
@@ -146,7 +146,7 @@ public class GupShupApplication : IGupShupApplication
             if (string.IsNullOrEmpty(content))
                 throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
 
-            return JsonConvert.DeserializeObject<MessageInboundView>(content);
+            return JsonConvert.DeserializeObject<MessageInboundResponseView>(content);
 
         }
         catch (Exception)
@@ -154,7 +154,7 @@ public class GupShupApplication : IGupShupApplication
             throw;
         }
     }
-    public async Task<MessageInboundView> SendImageMessage(string apiKey, BaseMessageRequestDTO<ImageMessageRequestDTO> messageRequest, string token)
+    public async Task<MessageInboundResponseView> SendImageMessage(string apiKey, BaseMessageRequestDTO<ImageMessageRequestDTO> messageRequest, string token)
     {
         try
         {
@@ -174,7 +174,7 @@ public class GupShupApplication : IGupShupApplication
             if (string.IsNullOrEmpty(content))
                 throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
 
-            return JsonConvert.DeserializeObject<MessageInboundView>(content);
+            return JsonConvert.DeserializeObject<MessageInboundResponseView>(content);
 
         }
         catch (Exception)
@@ -183,7 +183,7 @@ public class GupShupApplication : IGupShupApplication
         }
     }
 
-    public async Task<MessageInboundView> SendFileMessage(string apiKey, BaseMessageRequestDTO<FileMessageRequestDTO> messageRequest, string token)
+    public async Task<MessageInboundResponseView> SendFileMessage(string apiKey, BaseMessageRequestDTO<FileMessageRequestDTO> messageRequest, string token)
     {
         try
         {
@@ -203,7 +203,7 @@ public class GupShupApplication : IGupShupApplication
             if (string.IsNullOrEmpty(content))
                 throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
 
-            return JsonConvert.DeserializeObject<MessageInboundView>(content);
+            return JsonConvert.DeserializeObject<MessageInboundResponseView>(content);
 
         }
         catch (Exception)
@@ -212,7 +212,7 @@ public class GupShupApplication : IGupShupApplication
         }
     }
 
-    public async Task<MessageInboundView> SendVideoMessage(string apiKey, BaseMessageRequestDTO<VideoMessageRequestDTO> messageRequest, string token)
+    public async Task<MessageInboundResponseView> SendVideoMessage(string apiKey, BaseMessageRequestDTO<VideoMessageRequestDTO> messageRequest, string token)
     {
         try
         {
@@ -232,7 +232,7 @@ public class GupShupApplication : IGupShupApplication
             if (string.IsNullOrEmpty(content))
                 throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
 
-            return JsonConvert.DeserializeObject<MessageInboundView>(content);
+            return JsonConvert.DeserializeObject<MessageInboundResponseView>(content);
 
         }
         catch (Exception)
@@ -241,7 +241,7 @@ public class GupShupApplication : IGupShupApplication
         }
     }
 
-    public async Task<MessageInboundView> SendStickerMessage(string apiKey, BaseMessageRequestDTO<StickerMessageRequestDTO> messageRequest, string token)
+    public async Task<MessageInboundResponseView> SendStickerMessage(string apiKey, BaseMessageRequestDTO<StickerMessageRequestDTO> messageRequest, string token)
     {
         try
         {
@@ -261,7 +261,7 @@ public class GupShupApplication : IGupShupApplication
             if (string.IsNullOrEmpty(content))
                 throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
 
-            return JsonConvert.DeserializeObject<MessageInboundView>(content);
+            return JsonConvert.DeserializeObject<MessageInboundResponseView>(content);
 
         }
         catch (Exception)
