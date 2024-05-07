@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
-    <PackageReference Include="Evamind.CkmICDServices.DTOs" Version="0.9.5" />
+    <PackageReference Include="Evamind.CkmICDServices.DTOs" Version="0.9.7" />
     <PackageReference Include="Evamind.Helpers.Core" Version="0.4.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />

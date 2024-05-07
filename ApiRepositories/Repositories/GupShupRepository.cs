@@ -193,7 +193,7 @@ public class GupShupRepository : IGupShupRepository
         //return response;
     }
 
-    public async Task<HttpResponseMessage> SendTemplateToCustomers(MessageTemplateRequestView messageTemplate, Guid templateId, string apiKey, string token)
+    public async Task<HttpResponseMessage> SendTemplateToCustomers(BaseMessageRequestDTO<MessageTemplateRequestView> messageTemplate, string apiKey, string token)
     {
         string uri = $"{_whatsAppMiddlewareApi.Controllers.GupShup}/SendTemplateToCustomers";
 
@@ -201,7 +201,6 @@ public class GupShupRepository : IGupShupRepository
         _httpClient.AddBearerToken(token);
         _httpClient.AddApiVersion(_apiVersion);
         _httpClient.AddOrUpdateHeader("apiKey", apiKey.ToString());
-        _httpClient.AddOrUpdateHeader("templateId", templateId.ToString());
 
         _httpClient.AddBody(messageTemplate);
 
