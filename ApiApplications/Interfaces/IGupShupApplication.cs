@@ -10,7 +10,7 @@ public interface IGupShupApplication
 {
     Task<bool> GetWalletBalanceAsync(string apiKey, string token);
     Task<MessageTemplateResultView> GetAllTemplatesByApiKey(string apiKey, string sourceName, string token);
-    Task<bool> SendTemplateToCustomers(BaseMessageRequestDTO<MessageTemplateRequestView> messageTemplateRequest, string apiKey, string token);
+    Task<MessageInboundResponseView> SendTemplateToCustomers(BaseMessageRequestDTO<MessageTemplateRequestView> messageTemplateRequest, string apiKey, string token);
     Task<MessageInboundResponseView> SendTextMessage(string apiKey, BaseMessageRequestDTO<TextMessageRequestDTO> messageRequest, string token);
     Task<MessageInboundResponseView> SendAudioMessage(string apiKey, BaseMessageRequestDTO<AudioMessageRequestDTO> messageRequest, string token);
     Task<MessageInboundResponseView> SendImageMessage(string apiKey, BaseMessageRequestDTO<ImageMessageRequestDTO> messageRequest, string token);
