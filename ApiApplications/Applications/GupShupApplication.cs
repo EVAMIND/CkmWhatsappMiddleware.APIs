@@ -70,7 +70,7 @@ public class GupShupApplication : IGupShupApplication
             throw;
         }
     }  
-    public virtual async Task<bool> SendTemplateToCustomers(BaseMessageRequestDTO<MessageTemplateRequestView> messageTemplateRequest, string apiKey,  string token)
+    public virtual async Task<MessageInboundResponseView> SendTemplateToCustomers(BaseMessageRequestDTO<MessageTemplateRequestView> messageTemplateRequest, string apiKey,  string token)
     {
         try
         {
@@ -79,7 +79,7 @@ public class GupShupApplication : IGupShupApplication
             if (!response.IsSuccessStatusCode)
             {
                 if (response.StatusCode == HttpStatusCode.NotFound)
-                    return false;
+                    return new MessageInboundResponseView();
                 else
                     throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
             }
@@ -89,7 +89,7 @@ public class GupShupApplication : IGupShupApplication
             if (string.IsNullOrEmpty(content))
                 throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
 
-            return bool.Parse(content);
+            return JsonConvert.DeserializeObject<MessageInboundResponseView>(content);
 
             
         }
