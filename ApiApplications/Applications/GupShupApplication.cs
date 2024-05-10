@@ -1,10 +1,10 @@
 ﻿using CkmWhatsAppMiddleware.APIs.ApiApplications.Interfaces;
 using CkmWhatsAppMiddleware.APIs.ApiRepositories.Interfaces;
-using Newtonsoft.Json;
 using Services.DTOs.DataTransferObjects.MessageDTOs;
 using Services.DTOs.DataTransferObjects.MessageDTOs.Request.Base;
 using Services.DTOs.DataTransferObjects.MessageDTOs.Template;
 using System.Net;
+using System.Text.Json;
 
 namespace CkmWhatsAppMiddleware.APIs.ApiApplications.Applications;
 
@@ -61,7 +61,7 @@ public class GupShupApplication : IGupShupApplication
             if (string.IsNullOrEmpty(content))
                 throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
 
-            return JsonConvert.DeserializeObject<MessageTemplateResultView>(content);
+            return JsonSerializer.Deserialize<MessageTemplateResultView>(content);
         }
         catch (Exception)
         {
@@ -89,7 +89,7 @@ public class GupShupApplication : IGupShupApplication
             if (string.IsNullOrEmpty(content))
                 throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
 
-            return JsonConvert.DeserializeObject<MessageInboundResponseView>(content);
+            return JsonSerializer.Deserialize<MessageInboundResponseView>(content);
 
         }
         catch (Exception)
