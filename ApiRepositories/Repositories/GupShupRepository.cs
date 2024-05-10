@@ -4,6 +4,7 @@ using Helpers.Core.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Services.DTOs.DataTransferObjects.MessageDTOs.Request.Base;
+using System.Text.Json;
 
 namespace CkmWhatsAppMiddleware.APIs.ApiRepositories.Repositories;
 
@@ -221,11 +222,11 @@ public class GupShupRepository : IGupShupRepository
         _httpClient.AddOrUpdateUri(uri);
         _httpClient.AddBearerToken(token);
         _httpClient.AddApiVersion(_apiVersion);
-        _httpClient.AddOrUpdateHeader("apiKey", apiKey.ToString());
 
-        _httpClient.AddBody(messageRequest);
+        _httpClient.AddBody(JsonSerializer.Serialize(messageRequest));
 
         return await _httpClient.PostAsync();
+
     }
 
 }
