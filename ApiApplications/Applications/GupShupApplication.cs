@@ -1,11 +1,9 @@
-﻿using CkmICDServices.DTOs.TransferObjects.Message;
-using CkmICDServices.DTOs.TransferObjects.Message.Request;
-using CkmICDServices.DTOs.TransferObjects.Message.Request.Base;
-using CkmICDServices.DTOs.TransferObjects.Template;
-using CkmICDServices.DTOs.TransferObjects.Template.Request;
-using CkmWhatsAppMiddleware.APIs.ApiApplications.Interfaces;
+﻿using CkmWhatsAppMiddleware.APIs.ApiApplications.Interfaces;
 using CkmWhatsAppMiddleware.APIs.ApiRepositories.Interfaces;
 using Newtonsoft.Json;
+using Services.DTOs.DataTransferObjects.MessageDTOs;
+using Services.DTOs.DataTransferObjects.MessageDTOs.Request.Base;
+using Services.DTOs.DataTransferObjects.MessageDTOs.Template;
 using System.Net;
 
 namespace CkmWhatsAppMiddleware.APIs.ApiApplications.Applications;
@@ -70,39 +68,12 @@ public class GupShupApplication : IGupShupApplication
             throw;
         }
     }  
-    public virtual async Task<MessageInboundResponseView> SendTemplateToCustomers(BaseMessageRequestDTO<MessageTemplateRequestView> messageTemplateRequest, string apiKey,  string token)
+    
+    public virtual async Task<MessageInboundResponseView> SendWhatsAppMessage(string apiKey,  BaseMessageRequestDTO messageRequest, string token)
     {
         try
         {
-            var response = await _repository.SendTemplateToCustomers(messageTemplateRequest, apiKey, token);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                if (response.StatusCode == HttpStatusCode.NotFound)
-                    return new MessageInboundResponseView();
-                else
-                    throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
-            }
-
-            var content = await response.Content.ReadAsStringAsync();
-
-            if (string.IsNullOrEmpty(content))
-                throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
-
-            return JsonConvert.DeserializeObject<MessageInboundResponseView>(content);
-
-            
-        }
-        catch (Exception)
-        {
-            throw;
-        }
-    } 
-    public virtual async Task<MessageInboundResponseView> SendTextMessage(string apiKey,  BaseMessageRequestDTO<TextMessageRequestDTO> messageRequest, string token)
-    {
-        try
-        {
-            HttpResponseMessage response = await _repository.SendTextMessage(apiKey, messageRequest, token);
+            HttpResponseMessage response = await _repository.SendWhatsAppMessage(apiKey, messageRequest, token);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -126,147 +97,177 @@ public class GupShupApplication : IGupShupApplication
             throw;
         }
     }
-    public async Task<MessageInboundResponseView> SendAudioMessage(string apiKey, BaseMessageRequestDTO<AudioMessageRequestDTO> messageRequest, string token)
-    {
-        try
-        {
-            HttpResponseMessage response = await _repository.SendAudioMessage(apiKey, messageRequest, token);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)
-                    return null;
+    //public virtual async Task<MessageInboundResponseView> SendTemplateToCustomers(BaseMessageRequestDTO messageTemplateRequest, string apiKey,  string token)
+    //{
+    //    try
+    //    {
+    //        var response = await _repository.SendTemplateToCustomers(messageTemplateRequest, apiKey, token);
 
-                else
-                    throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
-            }
+    //        if (!response.IsSuccessStatusCode)
+    //        {
+    //            if (response.StatusCode == HttpStatusCode.NotFound)
+    //                return new MessageInboundResponseView();
+    //            else
+    //                throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
+    //        }
 
-            var content = await response.Content.ReadAsStringAsync();
+    //        var content = await response.Content.ReadAsStringAsync();
 
-            if (string.IsNullOrEmpty(content))
-                throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
+    //        if (string.IsNullOrEmpty(content))
+    //            throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
 
-            return JsonConvert.DeserializeObject<MessageInboundResponseView>(content);
+    //        return JsonConvert.DeserializeObject<MessageInboundResponseView>(content);
 
-        }
-        catch (Exception)
-        {
-            throw;
-        }
-    }
-    public async Task<MessageInboundResponseView> SendImageMessage(string apiKey, BaseMessageRequestDTO<ImageMessageRequestDTO> messageRequest, string token)
-    {
-        try
-        {
-            HttpResponseMessage response = await _repository.SendImageMessage(apiKey, messageRequest, token);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)
-                    return null;
+    //    }
+    //    catch (Exception)
+    //    {
+    //        throw;
+    //    }
+    //} 
 
-                else
-                    throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
-            }
+    //public async Task<MessageInboundResponseView> SendAudioMessage(string apiKey, BaseMessageRequestDTO<AudioMessageRequestDTO> messageRequest, string token)
+    //{
+    //    try
+    //    {
+    //        HttpResponseMessage response = await _repository.SendAudioMessage(apiKey, messageRequest, token);
 
-            var content = await response.Content.ReadAsStringAsync();
+    //        if (!response.IsSuccessStatusCode)
+    //        {
+    //            if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)
+    //                return null;
 
-            if (string.IsNullOrEmpty(content))
-                throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
+    //            else
+    //                throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
+    //        }
 
-            return JsonConvert.DeserializeObject<MessageInboundResponseView>(content);
+    //        var content = await response.Content.ReadAsStringAsync();
 
-        }
-        catch (Exception)
-        {
-            throw;
-        }
-    }
+    //        if (string.IsNullOrEmpty(content))
+    //            throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
 
-    public async Task<MessageInboundResponseView> SendFileMessage(string apiKey, BaseMessageRequestDTO<FileMessageRequestDTO> messageRequest, string token)
-    {
-        try
-        {
-            HttpResponseMessage response = await _repository.SendFileMessage(apiKey, messageRequest, token);
+    //        return JsonConvert.DeserializeObject<MessageInboundResponseView>(content);
 
-            if (!response.IsSuccessStatusCode)
-            {
-                if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)
-                    return null;
+    //    }
+    //    catch (Exception)
+    //    {
+    //        throw;
+    //    }
+    //}
+    //public async Task<MessageInboundResponseView> SendImageMessage(string apiKey, BaseMessageRequestDTO<ImageMessageRequestDTO> messageRequest, string token)
+    //{
+    //    try
+    //    {
+    //        HttpResponseMessage response = await _repository.SendImageMessage(apiKey, messageRequest, token);
 
-                else
-                    throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
-            }
+    //        if (!response.IsSuccessStatusCode)
+    //        {
+    //            if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)
+    //                return null;
 
-            var content = await response.Content.ReadAsStringAsync();
+    //            else
+    //                throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
+    //        }
 
-            if (string.IsNullOrEmpty(content))
-                throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
+    //        var content = await response.Content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<MessageInboundResponseView>(content);
+    //        if (string.IsNullOrEmpty(content))
+    //            throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
 
-        }
-        catch (Exception)
-        {
-            throw;
-        }
-    }
+    //        return JsonConvert.DeserializeObject<MessageInboundResponseView>(content);
 
-    public async Task<MessageInboundResponseView> SendVideoMessage(string apiKey, BaseMessageRequestDTO<VideoMessageRequestDTO> messageRequest, string token)
-    {
-        try
-        {
-            HttpResponseMessage response = await _repository.SendVideoMessage(apiKey, messageRequest, token);
+    //    }
+    //    catch (Exception)
+    //    {
+    //        throw;
+    //    }
+    //}
 
-            if (!response.IsSuccessStatusCode)
-            {
-                if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)
-                    return null;
+    //public async Task<MessageInboundResponseView> SendFileMessage(string apiKey, BaseMessageRequestDTO<FileMessageRequestDTO> messageRequest, string token)
+    //{
+    //    try
+    //    {
+    //        HttpResponseMessage response = await _repository.SendFileMessage(apiKey, messageRequest, token);
 
-                else
-                    throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
-            }
+    //        if (!response.IsSuccessStatusCode)
+    //        {
+    //            if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)
+    //                return null;
 
-            var content = await response.Content.ReadAsStringAsync();
+    //            else
+    //                throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
+    //        }
 
-            if (string.IsNullOrEmpty(content))
-                throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
+    //        var content = await response.Content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<MessageInboundResponseView>(content);
+    //        if (string.IsNullOrEmpty(content))
+    //            throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
 
-        }
-        catch (Exception)
-        {
-            throw;
-        }
-    }
+    //        return JsonConvert.DeserializeObject<MessageInboundResponseView>(content);
 
-    public async Task<MessageInboundResponseView> SendStickerMessage(string apiKey, BaseMessageRequestDTO<StickerMessageRequestDTO> messageRequest, string token)
-    {
-        try
-        {
-            HttpResponseMessage response = await _repository.SendStickerMessage(apiKey, messageRequest, token);
+    //    }
+    //    catch (Exception)
+    //    {
+    //        throw;
+    //    }
+    //}
 
-            if (!response.IsSuccessStatusCode)
-            {
-                if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)
-                    return null;
+    //public async Task<MessageInboundResponseView> SendVideoMessage(string apiKey, BaseMessageRequestDTO<VideoMessageRequestDTO> messageRequest, string token)
+    //{
+    //    try
+    //    {
+    //        HttpResponseMessage response = await _repository.SendVideoMessage(apiKey, messageRequest, token);
 
-                else
-                    throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
-            }
+    //        if (!response.IsSuccessStatusCode)
+    //        {
+    //            if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)
+    //                return null;
 
-            var content = await response.Content.ReadAsStringAsync();
+    //            else
+    //                throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
+    //        }
 
-            if (string.IsNullOrEmpty(content))
-                throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
+    //        var content = await response.Content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<MessageInboundResponseView>(content);
+    //        if (string.IsNullOrEmpty(content))
+    //            throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
 
-        }
-        catch (Exception)
-        {
-            throw;
-        }
-    }
+    //        return JsonConvert.DeserializeObject<MessageInboundResponseView>(content);
+
+    //    }
+    //    catch (Exception)
+    //    {
+    //        throw;
+    //    }
+    //}
+
+    //public async Task<MessageInboundResponseView> SendStickerMessage(string apiKey, BaseMessageRequestDTO<StickerMessageRequestDTO> messageRequest, string token)
+    //{
+    //    try
+    //    {
+    //        HttpResponseMessage response = await _repository.SendStickerMessage(apiKey, messageRequest, token);
+
+    //        if (!response.IsSuccessStatusCode)
+    //        {
+    //            if (response.StatusCode == HttpStatusCode.NotFound || response.StatusCode == HttpStatusCode.BadRequest)
+    //                return null;
+
+    //            else
+    //                throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
+    //        }
+
+    //        var content = await response.Content.ReadAsStringAsync();
+
+    //        if (string.IsNullOrEmpty(content))
+    //            throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
+
+    //        return JsonConvert.DeserializeObject<MessageInboundResponseView>(content);
+
+    //    }
+    //    catch (Exception)
+    //    {
+    //        throw;
+    //    }
+    //}
 }
