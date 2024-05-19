@@ -61,7 +61,7 @@ public class GupShupApplication : IGupShupApplication
             if (string.IsNullOrEmpty(content))
                 throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
 
-            return JsonSerializer.Deserialize<MessageTemplateResultView>(content);
+            return JsonSerializer.Deserialize<MessageTemplateResultView>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         }
         catch (Exception)
         {
@@ -89,7 +89,7 @@ public class GupShupApplication : IGupShupApplication
             if (string.IsNullOrEmpty(content))
                 throw new Exception($"Não foi possível executar a api com apiKey: {apiKey} E Token: {token} E Response: {response}");
 
-            return JsonSerializer.Deserialize<MessageInboundResponseView>(content);
+            return JsonSerializer.Deserialize<MessageInboundResponseView>(content, new JsonSerializerOptions { PropertyNameCaseInsensitive = true});
 
         }
         catch (Exception)
