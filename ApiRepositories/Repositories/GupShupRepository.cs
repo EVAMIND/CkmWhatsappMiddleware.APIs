@@ -10,44 +10,48 @@ namespace CkmWhatsAppMiddleware.APIs.ApiRepositories.Repositories;
 
 public class GupShupRepository : IGupShupRepository
 {
-    private readonly HttpClient _httpClient;
+    private readonly IHttpClientFactory _httpClient;
     private readonly IConfiguration _configuration;
     private readonly WhatsAppMiddlewareApi _whatsAppMiddlewareApi;
     private readonly string _apiVersion;
-
-    public GupShupRepository(HttpClient httpClient, IConfiguration configuration, IOptions<WhatsAppMiddlewareApi> whatsAppMiddlewareApi)
+    private readonly Uri _baseAddress;
+    public GupShupRepository(IHttpClientFactory httpClient, IConfiguration configuration, IOptions<WhatsAppMiddlewareApi> whatsAppMiddlewareApi)
     {
         _httpClient = httpClient;
         _configuration = configuration;
         _whatsAppMiddlewareApi = whatsAppMiddlewareApi.Value;
         _apiVersion = _whatsAppMiddlewareApi.Versions.GupShup;
-        _httpClient.BaseAddress = new Uri(_configuration.GetValue<string>("Uris:WhatsAppMiddlewareApi")!.ToString()!);
+        _baseAddress = new Uri(_configuration.GetValue<string>("Uris:WhatsAppMiddlewareApi")!.ToString()!);
         
     }
 
     public async Task<HttpResponseMessage> GetAllTemplatesByApiKey(string apiKey, string sourceName, string token)
     {
         string uri = $"{_whatsAppMiddlewareApi.Controllers.GupShup}/ListTemplatesAsync";
+        var client = _httpClient.CreateClient();
 
-        _httpClient.AddOrUpdateUri(uri);
-        _httpClient.AddBearerToken(token);
-        _httpClient.AddApiVersion(_apiVersion);
-        _httpClient.AddOrUpdateHeader("apiKey", apiKey.ToString());
-        _httpClient.AddOrUpdateHeader("sourceName", sourceName.ToString());
+        client.BaseAddress = _baseAddress;
+        client.AddOrUpdateUri(uri);
+        client.AddBearerToken(token);
+        client.AddApiVersion(_apiVersion);
+        client.AddOrUpdateHeader("apiKey", apiKey.ToString());
+        client.AddOrUpdateHeader("sourceName", sourceName.ToString());
 
-        return await _httpClient.GetAsync();
+        return await client.GetAsync();
     }
 
     public async Task<HttpResponseMessage> GetWalletBalanceAsync(string apiKey, string token)
     {
         string uri = $"{_whatsAppMiddlewareApi.Controllers.GupShup}/GetWalletBalance";
+        var client = _httpClient.CreateClient();
 
-        _httpClient.AddOrUpdateUri(uri);
-        _httpClient.AddBearerToken(token);
-        _httpClient.AddApiVersion(_apiVersion);
-        _httpClient.AddOrUpdateHeader("apiKey", apiKey.ToString());
+        client.BaseAddress = _baseAddress;
+        client.AddOrUpdateUri(uri);
+        client.AddBearerToken(token);
+        client.AddApiVersion(_apiVersion);
+        client.AddOrUpdateHeader("apiKey", apiKey.ToString());
 
-        return await _httpClient.GetAsync();
+        return await client.GetAsync();
     }
 
     //public async Task<HttpResponseMessage> SendVideoMessage(string apiKey, BaseMessageRequestDTO<VideoMessageRequestDTO> messageRequest, string token)
@@ -218,14 +222,16 @@ public class GupShupRepository : IGupShupRepository
     public async Task<HttpResponseMessage> SendWhatsAppMessage(string apiKey, BaseMessageRequestDTO messageRequest, string token)
     {
         string uri = $"{_whatsAppMiddlewareApi.Controllers.GupShup}/SendWhatsAppMessage";
+        var client = _httpClient.CreateClient();
 
-        _httpClient.AddOrUpdateUri(uri);
-        _httpClient.AddBearerToken(token);
-        _httpClient.AddApiVersion(_apiVersion);
+        client.BaseAddress = _baseAddress;
+        client.AddOrUpdateUri(uri);
+        client.AddBearerToken(token);
+        client.AddApiVersion(_apiVersion);
 
-        _httpClient.AddBody(JsonSerializer.Serialize(messageRequest));
+        client.AddBody(JsonSerializer.Serialize(messageRequest));
 
-        return await _httpClient.PostAsync();
+        return await client.PostAsync();
 
     }
 
