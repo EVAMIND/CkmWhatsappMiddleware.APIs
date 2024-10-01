@@ -1,5 +1,6 @@
 ﻿using CkmWhatsAppMiddleware.APIs.ApiRepositories.Interfaces;
 using CkmWhatsAppMiddleware.APIs.Models;
+using Helpers.Core;
 using Helpers.Core.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -28,9 +29,9 @@ public class GupShupRepository : IGupShupRepository
     public async Task<HttpResponseMessage> GetAllTemplatesByApiKey(string apiKey, string sourceName, string token)
     {
         string uri = $"{_whatsAppMiddlewareApi.Controllers.GupShup}/ListTemplatesAsync";
-        var client = _httpClient.CreateClient();
+        var client = new EvaHttpClient(_httpClient.CreateClient());
 
-        client.BaseAddress = _baseAddress;
+        client.Client.BaseAddress = _baseAddress;
         client.AddOrUpdateUri(uri);
         client.AddBearerToken(token);
         client.AddApiVersion(_apiVersion);
@@ -43,9 +44,9 @@ public class GupShupRepository : IGupShupRepository
     public async Task<HttpResponseMessage> GetWalletBalanceAsync(string apiKey, string token)
     {
         string uri = $"{_whatsAppMiddlewareApi.Controllers.GupShup}/GetWalletBalance";
-        var client = _httpClient.CreateClient();
+        var client = new EvaHttpClient(_httpClient.CreateClient());
 
-        client.BaseAddress = _baseAddress;
+        client.Client.BaseAddress = _baseAddress;
         client.AddOrUpdateUri(uri);
         client.AddBearerToken(token);
         client.AddApiVersion(_apiVersion);
@@ -222,9 +223,9 @@ public class GupShupRepository : IGupShupRepository
     public async Task<HttpResponseMessage> SendWhatsAppMessage(string apiKey, BaseMessageRequestDTO messageRequest, string token)
     {
         string uri = $"{_whatsAppMiddlewareApi.Controllers.GupShup}/SendWhatsAppMessage";
-        var client = _httpClient.CreateClient();
+        var client = new EvaHttpClient(_httpClient.CreateClient());
 
-        client.BaseAddress = _baseAddress;
+        client.Client.BaseAddress = _baseAddress;
         client.AddOrUpdateUri(uri);
         client.AddBearerToken(token);
         client.AddApiVersion(_apiVersion);
