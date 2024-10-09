@@ -46,11 +46,16 @@ public static class WhatsAppMiddlewareApiInjections
     private static void AddRepositoriesServices(this IServiceCollection services)
     {
         services.AddScoped<IGupShupRepository, GupShupRepository>();
+        services.AddScoped<IMessagesRepository, MessagesRepository>();
+        services.AddScoped<IGrupoBoticarioTemplateRepository, GrupoBoticarioTemplateRepository>();
     }
 
     private static void AddApplicationsServices(this IServiceCollection services)
     {
         //services.AddAutoMapper(typeof(ApplicationMappingProfile));
         services.AddScoped<IGupShupApplication, GupShupApplication>();
+        services.AddScoped<IMessagesApplication, MessagesApplication>();
+        services.AddScoped<IGrupoBoticarioTemplateApplication, GrupoBoticarioTemplateApplication>();
+        
     }
 }
